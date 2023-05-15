@@ -15,6 +15,7 @@ clock = pygame.time.Clock()
 pygame.display.set_caption("Flappy Bird By Dhyanesh")
 
 bird = Bird(display)
+bird.start()
 
 while True:
     display.fill((0, 0, 0))
