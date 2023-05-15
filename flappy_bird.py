@@ -18,7 +18,7 @@ bird = Bird(display)
 
 while True:
     display.fill((0, 0, 0))
-    for event in pygame.event.get():
+    for event in pygame.event.get ():
         if event.type == pygame.QUIT: #To exit program
             pygame.quit()
             sys.exit()

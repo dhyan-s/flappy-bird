@@ -13,10 +13,13 @@ class Bird:
         
         self.x_pos: int = 200
         self.y_pos: int = 300
-        self.default_y: int = 300
+        
         self.velocity: int | float = 0
+        self.rotation: int | float = 3
         self.gravity: int | float = 0.25
-        self.rotation: int | float = 2.5
+        
+        self.jump_velocity: int | float = 8.5
+        self.max_rotation: int | float = 75
         
         self.load_frames()
         self.update_bird()
@@ -44,7 +47,6 @@ class Bird:
         
     def get_bird(self) -> tuple[pygame.Surface, pygame.Rect]:
         bird = self.bird_frames[self.bird_index]
-        # bird = pygame.transform.rotozoom(bird, -)
         bird_rect = bird.get_rect(center = (self.x_pos, self.y_pos))
         return bird, bird_rect
     
@@ -59,11 +61,14 @@ class Bird:
         self.update_bird()
         
     def jump(self):
-        self.velocity = -8.5
+        self.velocity = -self.jump_velocity
     
     def apply_gravity(self):
         self.velocity += self.gravity
-        self.bird_rect.centery += self.velocity
+        self.y_pos += self.velocity
+        self.update_bird()
+        self.bird = pygame.transform.rotozoom(self.bird, min(-self.velocity * 2.5, self.max_rotation), 1.15)
+        self.bird_rect = self.bird.get_rect(center = (self.x_pos, self.y_pos))
         
     def render(self) -> None:
         self.apply_gravity()
