@@ -8,15 +8,18 @@ class Bird:
         
         self.bird_frames: list[pygame.Surface]
         self.bird_index: int
-        
-        self.x_pos: int = 200
-        self.default_y = 300
-        
-        self.load_frames()
-        
         self.bird: pygame.Surface
         self.bird_rect: pygame.Rect
-        self.bird, self.bird_rect = self.get_bird()
+        
+        self.x_pos: int = 200
+        self.y_pos: int = 300
+        self.default_y: int = 300
+        self.velocity: int | float = 0
+        self.gravity: int | float = 0.25
+        self.rotation: int | float = 2.5
+        
+        self.load_frames()
+        self.update_bird()
         
     def start(self):
         self.moving = True
@@ -41,17 +44,28 @@ class Bird:
         
     def get_bird(self) -> tuple[pygame.Surface, pygame.Rect]:
         bird = self.bird_frames[self.bird_index]
-        y_pos = self.bird_rect.centery if hasattr(self, 'bird_rect') else self.default_y
-        bird_rect = bird.get_rect(center = (self.x_pos, y_pos))
+        # bird = pygame.transform.rotozoom(bird, -)
+        bird_rect = bird.get_rect(center = (self.x_pos, self.y_pos))
         return bird, bird_rect
+    
+    def update_bird(self):
+        self.bird, self.bird_rect = self.get_bird()
         
     def flap(self) -> None:
         if self.bird_index < 2:
             self.bird_index += 1
         else:
             self.bird_index = 0
-        self.bird, self.bird_rect = self.get_bird()
+        self.update_bird()
+        
+    def jump(self):
+        self.velocity = -8.5
+    
+    def apply_gravity(self):
+        self.velocity += self.gravity
+        self.bird_rect.centery += self.velocity
         
     def render(self) -> None:
+        self.apply_gravity()
         self.display.blit(self.bird, self.bird_rect)
         
