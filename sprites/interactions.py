@@ -30,15 +30,18 @@ class BirdPipeInteractionManager:
         if passing_through and self.passing_pipe != passing_pipe:
             print('pass through')
         self.passing_pipe = passing_pipe
-    
-    def handle_collision(self):
+        
+    def check_collision(self) -> tuple[bool, Pipe]:  # sourcery skip: use-next
         for pipe in self.pipe_manager:
             if self.bird.bird_rect.colliderect(pipe.top_pipe) or self.bird.bird_rect.colliderect(pipe.bottom_pipe):
-                if self.colliding_pipe == pipe: continue
-                self.colliding_pipe = pipe
-                print('collision')
-            elif self.colliding_pipe == pipe:
-                self.colliding_pipe = None
+                return (True, pipe)
+        return (False, None)
+    
+    def handle_collision(self):
+        colliding, colliding_pipe = self.check_collision()
+        if colliding and self.colliding_pipe != colliding_pipe:
+            print('collision')
+        self.colliding_pipe = colliding_pipe
     
     def handle_interactions(self):      
         self.handle_collision()
