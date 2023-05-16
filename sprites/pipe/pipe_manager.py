@@ -6,18 +6,30 @@ from .pipe import Pipe
 class PipeManager:
     def __init__(self, display: pygame.Surface, start_x: int | float = 800) -> None:
         self.display = display
+        self.moving: bool = False
         
         self.start_x = start_x
         
         self.pipe_list: list[Pipe] = []
         self.pipe_heights = range(350, 700, 50)
         
+    def start(self):
+        self.moving = True
+        for pipe in self.pipe_list:
+            pipe.start()
+        
+    def stop(self):
+        self.moving = False
+        for pipe in self.pipe_list:
+            pipe.stop()
+        
     def __iter__(self):
         return iter(self.pipe_list)
         
     def add_pipe(self) -> None:
         pipe = Pipe(self.display, self.start_x, random.choice(self.pipe_heights))
-        pipe.start()
+        if self.moving:
+            pipe.start()
         self.pipe_list.append(pipe)
         
     def remove_pipe(self, pipe: Pipe):

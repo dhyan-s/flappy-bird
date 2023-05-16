@@ -37,7 +37,8 @@ class Pipe:
         self.top_pipe.midbottom = (self.x_pos, self.y_pos - 280)
         
     def render(self) -> None:
-        self.update_pipe_pos()
         self.display.blit(self.pipe, self.top_pipe)
         self.display.blit(self.pipe, self.bottom_pipe)
-        self.x_pos -= 6.1
+        if self.moving:
+            self.update_pipe_pos()
+            self.x_pos -= 6.1

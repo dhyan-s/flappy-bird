@@ -20,6 +20,7 @@ bird = Bird(display)
 bird.start()
 
 pipe_manager = PipeManager(display)
+pipe_manager.start()
 
 bird_pipe_interaction_manager = BirdPipeInteractionManager(bird, pipe_manager)
 
