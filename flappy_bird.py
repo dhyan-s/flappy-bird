@@ -3,6 +3,7 @@ from pygame.locals import  *
 import sys
 
 from sprites.bird import Bird
+from sprites.pipe import Pipe
 
 pygame.init()
 
@@ -20,6 +21,12 @@ bird.start()
 BIRD_FLAP = pygame.USEREVENT
 pygame.time.set_timer(BIRD_FLAP, 100)
 
+ADDPIPE = pygame.USEREVENT + 1
+pygame.time.set_timer(ADDPIPE, 900)
+
+pipe = Pipe(display, 800, 400)
+pipe.start()
+
 while True:
     display.fill((0, 0, 0))
     for event in pygame.event.get():
@@ -30,6 +37,10 @@ while True:
             bird.jump()
         if event.type == BIRD_FLAP:
             bird.flap()
+        if event.type == ADDPIPE:
+            pipe = Pipe(display, 800, 400)
+            pipe.start()
+    pipe.render()
     bird.render()
     pygame.display.update()
     clock.tick(FPS)
