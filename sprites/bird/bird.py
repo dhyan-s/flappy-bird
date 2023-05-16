@@ -45,14 +45,11 @@ class Bird:
         self.bird_frames = [bird_downflap , bird_midflap , bird_upflap]
         self.bird_frames = [pygame.transform.rotozoom(bird, 0, 1.15) for bird in self.bird_frames]
         self.bird_index = 0
-        
-    def get_bird(self) -> tuple[pygame.Surface, pygame.Rect]:
-        bird = self.bird_frames[self.bird_index]
-        bird_rect = bird.get_rect(center = (self.x_pos, self.y_pos))
-        return bird, bird_rect
     
     def update_bird(self):
-        self.bird, self.bird_rect = self.get_bird()
+        self.bird = self.bird_frames[self.bird_index]
+        self.bird = pygame.transform.rotate(self.bird, min(-self.velocity * self.rotation, self.max_rotation))
+        self.bird_rect = self.bird.get_rect(center = (self.x_pos, self.y_pos))
         
     def flap(self) -> None:
         if self.bird_index < 2:
@@ -68,8 +65,6 @@ class Bird:
         self.velocity += self.gravity
         self.y_pos += self.velocity
         self.update_bird()
-        self.bird = pygame.transform.rotate(self.bird, min(-self.velocity * 2.5, self.max_rotation))
-        self.bird_rect = self.bird.get_rect(center = (self.x_pos, self.y_pos))
         
     def render(self) -> None:
         if self.moving:
