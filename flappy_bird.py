@@ -4,6 +4,7 @@ import sys
 
 from sprites.bird import Bird
 from sprites.pipe import Pipe, PipeManager
+from sprites.interactions import BirdPipeInteractionManager
 
 pygame.init()
 
@@ -20,6 +21,8 @@ bird.start()
 
 pipe_manager = PipeManager(display)
 
+bird_pipe_interaction_manager = BirdPipeInteractionManager(bird, pipe_manager)
+
 BIRD_FLAP = pygame.USEREVENT
 pygame.time.set_timer(BIRD_FLAP, 100)
 
@@ -32,7 +35,7 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        if (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE) or event.type == pygame.MOUSEBUTTONDOWN:
+        if (event.type  == pygame.KEYDOWN and event.key == pygame.K_SPACE) or event.type == pygame.MOUSEBUTTONDOWN:
             bird.jump()
         if event.type == BIRD_FLAP:
             bird.flap()
@@ -40,5 +43,6 @@ while True:
             pipe_manager.add_pipe()
     pipe_manager.render()
     bird.render()
+    bird_pipe_interaction_manager.handle_interactions()
     pygame.display.update()
     clock.tick(FPS)
