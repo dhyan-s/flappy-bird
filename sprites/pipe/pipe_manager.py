@@ -9,8 +9,11 @@ class PipeManager:
         
         self.start_x = start_x
         
-        self.pipe_list = []
+        self.pipe_list: list[Pipe] = []
         self.pipe_heights = range(350, 700, 50)
+        
+    def __iter__(self):
+        return iter(self.pipe_list)
         
     def add_pipe(self) -> None:
         pipe = Pipe(self.display, self.start_x, random.choice(self.pipe_heights))
