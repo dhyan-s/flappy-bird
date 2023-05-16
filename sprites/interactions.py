@@ -11,7 +11,7 @@ class BirdPipeInteractionManager:
         self.passing_pipe: Pipe = None
         self.colliding_pipe: Pipe = None
         
-    def check_pass_through(self):
+    def check_pass_through(self) -> tuple[bool, Pipe | None]:
         for pipe in self.pipe_manager:
             valid_x = (
                 self.bird.centerx >= pipe.top_pipe.centerx
@@ -22,13 +22,16 @@ class BirdPipeInteractionManager:
                 and self.bird.bottom < pipe.bottom_pipe.midtop[1]
             )
             if valid_x and valid_y:
-                if self.passing_pipe == pipe: continue
-                print('pass through')
-                self.passing_pipe = pipe
-            elif self.passing_pipe == pipe:
-                self.passing_pipe = None
+                return (True, pipe)
+        return (False, None)
+        
+    def handle_pass_through(self):
+        passing_through, passing_pipe = self.check_pass_through()
+        if passing_through and self.passing_pipe != passing_pipe:
+            print('pass through')
+        self.passing_pipe = passing_pipe
     
-    def check_collision(self):
+    def handle_collision(self):
         for pipe in self.pipe_manager:
             if self.bird.bird_rect.colliderect(pipe.top_pipe) or self.bird.bird_rect.colliderect(pipe.bottom_pipe):
                 if self.colliding_pipe == pipe: continue
@@ -38,5 +41,5 @@ class BirdPipeInteractionManager:
                 self.colliding_pipe = None
     
     def handle_interactions(self):      
-        self.check_collision()
-        self.check_pass_through()
+        self.handle_collision()
+        self.handle_pass_through()
