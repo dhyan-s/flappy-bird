@@ -30,6 +30,12 @@ pygame.time.set_timer(BIRD_FLAP, 100)
 ADDPIPE = pygame.USEREVENT + 1
 pygame.time.set_timer(ADDPIPE, 900)
 
+def collision():
+    pipe_manager.stop()
+    bird.stop()
+    
+bird_pipe_interaction_manager.add_collision_callback(collision)
+
 while True:
     display.fill((0, 0, 0))
     for event in pygame.event.get():

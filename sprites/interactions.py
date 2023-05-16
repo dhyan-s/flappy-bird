@@ -11,6 +11,21 @@ class BirdPipeInteractionManager:
         self.passing_pipe: Pipe = None
         self.colliding_pipe: Pipe = None
         
+        self.on_pass_through = lambda: None
+        self.on_collision = lambda: None
+    
+    def add_pass_through_callback(self, func) -> None:
+        self.on_pass_through = func
+        
+    def remove_pass_through_callback(self) -> None:
+        self.on_pass_through = lambda: None
+        
+    def add_collision_callback(self, func) -> None:
+        self.on_collision = func
+        
+    def remove_collision_callback(self) -> None:
+        self.on_collision = lambda: None
+        
     def check_pass_through(self) -> tuple[bool, Pipe | None]:
         for pipe in self.pipe_manager:
             valid_x = (
@@ -29,6 +44,7 @@ class BirdPipeInteractionManager:
         passing_through, passing_pipe = self.check_pass_through()
         if passing_through and self.passing_pipe != passing_pipe:
             print('pass through')
+            self.on_pass_through()
         self.passing_pipe = passing_pipe
         
     def check_collision(self) -> tuple[bool, Pipe]:  # sourcery skip: use-next
@@ -41,6 +57,7 @@ class BirdPipeInteractionManager:
         colliding, colliding_pipe = self.check_collision()
         if colliding and self.colliding_pipe != colliding_pipe:
             print('collision')
+            self.on_collision()
         self.colliding_pipe = colliding_pipe
     
     def handle_interactions(self):      
