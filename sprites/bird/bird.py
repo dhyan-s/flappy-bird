@@ -71,6 +71,7 @@ class Bird(BirdCoordinates):
         self.bird_rect = self.bird.get_rect(center = (self.x_pos, self.y_pos))
         
     def flap(self) -> None:
+        if not self.moving: return
         if self.bird_index < 2:
             self.bird_index += 1
         else:
