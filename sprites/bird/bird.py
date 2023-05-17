@@ -23,6 +23,8 @@ class Bird(BirdCoordinates):
         self.jump_velocity: int | float = 8.5
         self.max_rotation: int | float = 75
         
+        self._jump_sound: pygame.mixer.Sound = None
+        
         self.load_frames()
         self.update_bird()
         
@@ -43,11 +45,17 @@ class Bird(BirdCoordinates):
         else:
             object.__setattr__(self, attr, value)
         
-    def start(self):
+    def start(self) -> None:
         self.moving = True
         
-    def stop(self):
+    def stop(self) -> None:
         self.moving = False
+        
+    def add_jump_sound(self, sound: pygame.mixer.Sound) -> None:
+        self._jump_sound = sound
+        
+    def remove_jump_sound(self) -> None:
+        self._jump_sound = None
         
     def load_frames(self) -> None:
         cur_dir = os.path.dirname(__file__)
@@ -65,7 +73,7 @@ class Bird(BirdCoordinates):
         self.bird_frames = [pygame.transform.rotozoom(bird, 0, 1.15) for bird in self.bird_frames]
         self.bird_index = 0
     
-    def update_bird(self):
+    def update_bird(self) -> None:
         self.bird = self.bird_frames[self.bird_index]
         self.bird = pygame.transform.rotate(self.bird, min(-self.velocity * self.rotation, self.max_rotation))
         self.bird_rect = self.bird.get_rect(center = (self.x_pos, self.y_pos))
@@ -78,10 +86,12 @@ class Bird(BirdCoordinates):
             self.bird_index = 0
         self.update_bird()
         
-    def jump(self):
+    def jump(self) -> None:
         self.velocity = -self.jump_velocity
+        if self._jump_sound is not None:
+            self._jump_sound.play()
     
-    def apply_gravity(self):
+    def apply_gravity(self) -> None:
         self.velocity += self.gravity
         self.y_pos += self.velocity
         self.update_bird()

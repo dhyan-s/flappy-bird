@@ -22,6 +22,7 @@ jump_sound = pygame.mixer.Sound("assets/sounds/jump.ogg")
 
 bird = Bird(display)
 bird.start()
+bird.add_jump_sound(jump_sound)
 
 pipe_manager = PipeManager(display)
 pipe_manager.start()
@@ -37,10 +38,10 @@ pygame.time.set_timer(ADDPIPE, 900)
 def collision():
     pipe_manager.stop()
     bird.stop()
-    crash_sound.play()
     
 bird_pipe_interaction_manager.add_collision_callback(collision)
-bird_pipe_interaction_manager.add_pass_through_callback(lambda: point_sound.play())
+bird_pipe_interaction_manager.add_collision_sound(crash_sound)
+bird_pipe_interaction_manager.add_pass_through_sound(point_sound)
 
 while True:
     display.fill((0, 0, 0))
@@ -50,7 +51,6 @@ while True:
             sys.exit()
         if (event.type  == pygame.KEYDOWN and event.key == pygame.K_SPACE) or event.type == pygame.MOUSEBUTTONDOWN:
             bird.jump()
-            jump_sound.play()
         if event.type == BIRD_FLAP:
             bird.flap()
         if event.type == ADDPIPE:
