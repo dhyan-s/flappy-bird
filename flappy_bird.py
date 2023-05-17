@@ -31,7 +31,6 @@ pipe_manager.start()
 bird_pipe_interaction_manager = BirdPipeInteractionManager(bird, pipe_manager)
 
 ground = Ground(display)
-ground.start()
 
 BIRD_FLAP = pygame.USEREVENT
 pygame.time.set_timer(BIRD_FLAP, 100)
@@ -42,8 +41,6 @@ pygame.time.set_timer(ADDPIPE, 900)
 def collision():
     pipe_manager.stop()
     bird.stop()
-    ground.stop()
-    pass
     
 bird_pipe_interaction_manager.add_collision_callback(collision)
 bird_pipe_interaction_manager.add_collision_sound(crash_sound)
@@ -70,7 +67,7 @@ while True:
         bird.render()
         bird_pipe_interaction_manager.handle_interactions()
     else:
-        ground.stop()
+        pass
     ground.render()
     pygame.display.update()
     clock.tick(FPS)
