@@ -48,8 +48,12 @@ class BirdPipeInteractionManager:
         self.passing_pipe = passing_pipe
         
     def check_collision(self) -> tuple[bool, Pipe]:  # sourcery skip: use-next
+        bird_mask = pygame.mask.from_surface(self.bird.bird)
         for pipe in self.pipe_manager:
-            if self.bird.bird_rect.colliderect(pipe.top_pipe) or self.bird.bird_rect.colliderect(pipe.bottom_pipe):
+            pipe_mask = pygame.mask.from_surface(pipe.pipe)
+            top_pipe_offset = (pipe.top_pipe.x - self.bird.bird_rect.x, pipe.top_pipe.y - self.bird.bird_rect.y)
+            bottom_pipe_offset = (pipe.bottom_pipe.x - self.bird.bird_rect.x, pipe.bottom_pipe.y - self.bird.bird_rect.y)
+            if bird_mask.overlap(pipe_mask, top_pipe_offset) or bird_mask.overlap(pipe_mask, bottom_pipe_offset):
                 return (True, pipe)
         return (False, None)
     
