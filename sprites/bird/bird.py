@@ -73,6 +73,10 @@ class Bird(BirdCoordinates):
         self.bird_frames = [pygame.transform.rotozoom(bird, 0, 1.15) for bird in self.bird_frames]
         self.bird_index = 0
     
+    @property 
+    def mask(self) -> pygame.mask.Mask:
+        return pygame.mask.from_surface(self.bird)
+    
     def update_bird(self) -> None:
         self.bird = self.bird_frames[self.bird_index]
         self.bird = pygame.transform.rotate(self.bird, min(-self.velocity * self.rotation, self.max_rotation))

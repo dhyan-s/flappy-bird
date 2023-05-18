@@ -12,6 +12,7 @@ class Pipe:
         self.pipe: pygame.Surface
         self.top_pipe: pygame.Rect
         self.bottom_pipe: pygame.Rect
+        self.mask: pygame.mask.Mask
         
         self.load_pipes()
         
@@ -29,6 +30,8 @@ class Pipe:
         
         self.bottom_pipe = self.pipe.get_rect(midtop = (self.x_pos, self.y_pos))
         self.top_pipe = self.pipe.get_rect(midbottom = (self.x_pos, self.y_pos - 280))
+        
+        self.mask = pygame.mask.from_surface(self.pipe)
         
         self.update_pipe_pos()
         
