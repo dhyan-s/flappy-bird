@@ -3,6 +3,7 @@ from pygame.locals import  *
 
 from game import Game
 from game import HomeScreen
+from game import DisplayHandler
 
 pygame.init()
 
@@ -14,20 +15,20 @@ display = pygame.display.set_mode((SCREENWIDTH , SCREENHEIGHT))
 clock = pygame.time.Clock()
 pygame.display.set_caption("Flappy Bird By Dhyanesh")
 
-game = Game(display)
+display_handler = DisplayHandler()
+
+game = Game(display, display_handler)
 game.load()
 
-home_screen = HomeScreen(display)
+home_screen = HomeScreen(display, display_handler)
 home_screen.load()
 
-game_started = False
+display_handler.set_current_state('home_screen')
+
 while True:
     display.fill((0, 0, 0))
     
-    if game_started:
-        game.render()
-    else:
-        home_screen.render()
+    display_handler.render()
     
     pygame.display.update()
     clock.tick(FPS)

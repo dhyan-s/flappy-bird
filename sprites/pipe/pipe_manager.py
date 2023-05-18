@@ -22,6 +22,9 @@ class PipeManager:
         self.moving = False
         for pipe in self.pipe_list:
             pipe.stop()
+            
+    def reset(self):
+        self.pipe_list.clear()
         
     def __iter__(self):
         return iter(self.pipe_list)

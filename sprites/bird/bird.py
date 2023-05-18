@@ -51,6 +51,11 @@ class Bird(BirdCoordinates):
     def stop(self) -> None:
         self.moving = False
         
+    def reset(self) -> None:
+        self.x_pos = 200
+        self.y_pos = 300
+        self.velocity = 0
+        
     def add_jump_sound(self, sound: pygame.mixer.Sound) -> None:
         self._jump_sound = sound
         
@@ -88,7 +93,6 @@ class Bird(BirdCoordinates):
             self.bird_index += 1
         else:
             self.bird_index = 0
-        self.update_bird()
         
     def jump(self) -> None:
         self.velocity = -self.jump_velocity
@@ -98,9 +102,9 @@ class Bird(BirdCoordinates):
     def apply_gravity(self) -> None:
         self.velocity += self.gravity
         self.y_pos += self.velocity
-        self.update_bird()
         
     def render(self) -> None:
         if self.moving:
             self.apply_gravity()
+            self.update_bird()
         self.display.blit(self.bird, self.bird_rect)   

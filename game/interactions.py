@@ -2,14 +2,54 @@ import pygame
 
 from sprites.bird import Bird
 from sprites.pipe import Pipe, PipeManager
+from sprites.ground import Ground
 
-class BirdPipeInteractionManager:
+
+class BirdCollisionManager:
+    def __init__(self, bird: Bird, other_sprite) -> None:
+        self.bird = bird
+        self.other_sprite = other_sprite
+        
+        self.collided: bool = False
+        
+        self._on_collision = lambda: None
+        self._collision_sound: pygame.mixer.Sound = None
+        
+    def add_collision_callback(self, func) -> None:
+        self._on_collision = func
+        
+    def remove_collision_callback(self) -> None:
+        self._on_collision = lambda: None
+        
+    def add_collision_sound(self, sound: pygame.mixer.Sound) -> None:
+        self._collision_sound = sound
+    
+    def remove_collision_sound(self) -> None:
+        self._collision_sound = None
+        
+    def check_collision(self) -> bool:
+        offset = (self.other_sprite.rect.x - self.bird.bird_rect.x, self.other_sprite.rect.y - self.bird.bird_rect.y)
+        return self.bird.mask.overlap(self.other_sprite.mask, offset) or self.bird.bird_rect.y <= -150
+        
+    def handle_collision(self) -> None:
+        if self.check_collision() and not self.collided:
+            print('collision')
+            self._on_collision()
+            if self._collision_sound is not None:
+                self._collision_sound.play()
+            self.collided = True
+        else:
+            self.collided = False
+            
+
+class BirdPipeInteractionManager(BirdCollisionManager):
     def __init__(self, bird: Bird, pipe_manager: PipeManager):
         self.bird = bird
         self.pipe_manager = pipe_manager
         
-        self.passing_pipe: Pipe = None
-        self.colliding_pipe: Pipe = None
+        super().__init__(self.bird, None)
+        
+        self.passing: bool = False
         
         self._on_pass_through = lambda: None
         self._on_collision = lambda: None
@@ -23,23 +63,11 @@ class BirdPipeInteractionManager:
     def remove_pass_through_callback(self) -> None:
         self._on_pass_through = lambda: None
         
-    def add_collision_callback(self, func) -> None:
-        self._on_collision = func
-        
-    def remove_collision_callback(self) -> None:
-        self._on_collision = lambda: None
-        
     def add_pass_through_sound(self, sound: pygame.mixer.Sound) -> None:
         self._pass_through_sound = sound
     
     def remove_pass_through_sound(self) -> None:
         self._pass_through_sound = None
-    
-    def add_collision_sound(self, sound: pygame.mixer.Sound) -> None:
-        self._collision_sound = sound
-    
-    def remove_collision_sound(self) -> None:
-        self._collision_sound = None
         
     def check_pass_through(self) -> tuple[bool, Pipe | None]:
         for pipe in self.pipe_manager:
@@ -56,13 +84,14 @@ class BirdPipeInteractionManager:
         return (False, None)
         
     def handle_pass_through(self) -> None:
-        passing_through, passing_pipe = self.check_pass_through()
-        if passing_through and self.passing_pipe != passing_pipe:
+        passing_through, _ = self.check_pass_through()
+        if passing_through and not self.passing:
             print('pass through')
             self._on_pass_through()
             if self._pass_through_sound is not None: 
                 self._pass_through_sound.play()
-        self.passing_pipe = passing_pipe
+            self.passing = True
+        self.passing = passing_through
         
     def check_collision(self) -> tuple[bool, Pipe]:  # sourcery skip: use-next
         for pipe in self.pipe_manager:
@@ -73,13 +102,14 @@ class BirdPipeInteractionManager:
         return (False, None)
     
     def handle_collision(self) -> None:
-        colliding, colliding_pipe = self.check_collision()
-        if colliding and self.colliding_pipe != colliding_pipe:
+        colliding, _ = self.check_collision()
+        if colliding and not self.collided:
             print('collision')
             self._on_collision()
             if self._collision_sound is not None:
                 self._collision_sound.play()
-        self.colliding_pipe = colliding_pipe
+            self.collided = True
+        self.collided = colliding
     
     def handle_interactions(self):      
         self.handle_collision()
