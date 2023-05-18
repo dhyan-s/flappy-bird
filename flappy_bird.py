@@ -4,8 +4,8 @@ import sys
 
 from sprites.bird import Bird
 from sprites.pipe import Pipe, PipeManager
-from sprites.interactions import BirdPipeInteractionManager
 from sprites.ground import Ground
+from game.interactions import BirdPipeInteractionManager
 
 pygame.init()
 

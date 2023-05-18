@@ -1,7 +1,7 @@
 import pygame
 
-from .bird import Bird
-from .pipe import Pipe, PipeManager
+from sprites.bird import Bird
+from sprites.pipe import Pipe, PipeManager
 
 class BirdPipeInteractionManager:
     def __init__(self, bird: Bird, pipe_manager: PipeManager):
