@@ -1,17 +1,19 @@
-import pygame
 import os, sys
+import pygame
 
 from sprites.bird import Bird
 from sprites.pipe import PipeManager
 from sprites.ground import Ground
 from .interactions import BirdPipeInteractionManager, BirdCollisionManager
 from .display_handler import DisplayHandler
+from .score import Score
 
 class Game:
-    def __init__(self, display: pygame.Surface, display_handler: DisplayHandler) -> None:
+    def __init__(self, display: pygame.Surface, display_handler: DisplayHandler, score_handler: Score) -> None:
         self.display = display
         self.display_handler = display_handler
         self.display_handler.add_state('game', self)
+        self.score_handler = score_handler
         
     def game_over(self):
         self.display_handler.set_current_state('home_screen')
@@ -34,6 +36,7 @@ class Game:
         self.bird_pipe_interaction_manager = BirdPipeInteractionManager(self.bird, self.pipe_manager)
         self.bird_pipe_interaction_manager.add_collision_callback(self.game_over)
         self.bird_pipe_interaction_manager.add_collision_sound(self.crash_sound)
+        self.bird_pipe_interaction_manager.add_pass_through_callback(self.score_handler.increment_score)
         self.bird_pipe_interaction_manager.add_pass_through_sound(self.point_sound)
         
         self.ground = Ground(self.display)
@@ -49,9 +52,15 @@ class Game:
         pygame.time.set_timer(self.ADDPIPE, 900)
         
     def on_set_active(self):
+        self.score_handler.reset_score()
         self.bird.reset()
         self.pipe_manager.reset()
         self.bird.jump()
+        
+    def render_score(self):
+        score_surface = self.score_handler.font.render(str(self.score_handler.score), True, (255, 255, 255))
+        score_rect = score_surface.get_rect(center=(self.display.get_width()//2, 100))
+        self.display.blit(score_surface, score_rect)
         
     def render(self) -> None:
         for event in pygame.event.get():
@@ -70,3 +79,4 @@ class Game:
         self.bird_pipe_interaction_manager.handle_interactions()
         self.bird_collision_manager.handle_collision()
         self.ground.render()
+        self.render_score()
