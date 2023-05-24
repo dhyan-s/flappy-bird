@@ -18,3 +18,5 @@ Flappy Bird Redesign is a revamped version of the game I created about two years
 5. **Enjoy and Contribute**: Play the game, explore the codebase, and feel free to contribute to the project by following the guidelines outlined in the "Contributing" section.
 
 Thank you for checking out Flappy Bird Redesign, and I appreciate your support!
+
+<img src="assets/readme_icon.png" alt="hi">
