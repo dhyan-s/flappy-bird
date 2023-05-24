@@ -28,8 +28,8 @@ class BirdCollisionManager:
         self._collision_sound = None
         
     def check_collision(self) -> bool:
-        offset = (self.other_sprite.rect.x - self.bird.bird_rect.x, self.other_sprite.rect.y - self.bird.bird_rect.y)
-        return self.bird.mask.overlap(self.other_sprite.mask, offset) or self.bird.bird_rect.y <= -150
+        offset = (self.other_sprite.rect.x - self.bird.rect.x, self.other_sprite.rect.y - self.bird.rect.y)
+        return self.bird.mask.overlap(self.other_sprite.mask, offset) or self.bird.rect.y <= -150
         
     def handle_collision(self) -> None:
         if self.check_collision() and not self.collided:
@@ -72,12 +72,12 @@ class BirdPipeInteractionManager(BirdCollisionManager):
     def check_pass_through(self) -> tuple[bool, Pipe | None]:
         for pipe in self.pipe_manager:
             valid_x = (
-                self.bird.bird_rect.centerx >= pipe.top_pipe.centerx
-                and self.bird.bird_rect.centerx <= pipe.top_pipe.midright[0]
+                self.bird.rect.centerx >= pipe.top_pipe.centerx
+                and self.bird.rect.centerx <= pipe.top_pipe.midright[0]
             )
             valid_y = (
-                self.bird.bird_rect.top > pipe.top_pipe.midbottom[1]
-                and self.bird.bird_rect.bottom < pipe.bottom_pipe.midtop[1]
+                self.bird.rect.top > pipe.top_pipe.midbottom[1]
+                and self.bird.rect.bottom < pipe.bottom_pipe.midtop[1]
             )
             if valid_x and valid_y:
                 return (True, pipe)
@@ -95,8 +95,8 @@ class BirdPipeInteractionManager(BirdCollisionManager):
         
     def check_collision(self) -> tuple[bool, Pipe]:  # sourcery skip: use-next
         for pipe in self.pipe_manager:
-            top_pipe_offset = (pipe.top_pipe.x - self.bird.bird_rect.x, pipe.top_pipe.y - self.bird.bird_rect.y)
-            bottom_pipe_offset = (pipe.bottom_pipe.x - self.bird.bird_rect.x, pipe.bottom_pipe.y - self.bird.bird_rect.y)
+            top_pipe_offset = (pipe.top_pipe.x - self.bird.rect.x, pipe.top_pipe.y - self.bird.rect.y)
+            bottom_pipe_offset = (pipe.bottom_pipe.x - self.bird.rect.x, pipe.bottom_pipe.y - self.bird.rect.y)
             if self.bird.mask.overlap(pipe.mask, top_pipe_offset) or self.bird.mask.overlap(pipe.mask, bottom_pipe_offset):
                 return (True, pipe)
         return (False, None)

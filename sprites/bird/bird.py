@@ -9,7 +9,7 @@ class Bird:
         self.bird_frames: list[pygame.Surface]
         self.bird_index: int
         self.bird: pygame.Surface
-        self.bird_rect: pygame.Rect
+        self.rect: pygame.Rect
         
         self.x_pos: int = 200
         self.y_pos: int = 300
@@ -66,7 +66,7 @@ class Bird:
     def update_bird(self) -> None:
         self.bird = self.bird_frames[self.bird_index]
         self.bird = pygame.transform.rotate(self.bird, min(-self.velocity * self.rotation, self.max_rotation))
-        self.bird_rect = self.bird.get_rect(center = (self.x_pos, self.y_pos))
+        self.rect = self.bird.get_rect(center = (self.x_pos, self.y_pos))
         
     def flap(self) -> None:
         if not self.moving: return
@@ -88,4 +88,4 @@ class Bird:
         if self.moving:
             self.apply_gravity()
             self.update_bird()
-        self.display.blit(self.bird, self.bird_rect)   
+        self.display.blit(self.bird, self.rect)   
