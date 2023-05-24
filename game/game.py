@@ -16,6 +16,7 @@ class Game:
         self.score_handler = score_handler
         
     def game_over(self):
+        self.pipe_manager.stop()
         self.display_handler.set_current_state('home_screen')
         
     def load(self) -> None:
@@ -31,7 +32,6 @@ class Game:
         self.bird.add_jump_sound(self.jump_sound)
 
         self.pipe_manager = PipeManager(self.display)
-        self.pipe_manager.start()
 
         self.bird_pipe_interaction_manager = BirdPipeInteractionManager(self.bird, self.pipe_manager)
         self.bird_pipe_interaction_manager.add_collision_callback(self.game_over)
@@ -48,14 +48,14 @@ class Game:
         self.BIRD_FLAP = pygame.USEREVENT
         pygame.time.set_timer(self.BIRD_FLAP, 100)
 
-        self.ADDPIPE = pygame.USEREVENT + 1
-        pygame.time.set_timer(self.ADDPIPE, 900)
+        self.START_PIPES = pygame.USEREVENT + 1
         
     def on_set_active(self):
         self.score_handler.reset_score()
         self.bird.reset()
         self.pipe_manager.reset()
         self.bird.jump()
+        pygame.time.set_timer(self.START_PIPES, 400)
         
     def render(self) -> None:
         for event in pygame.event.get():
@@ -66,6 +66,9 @@ class Game:
                 self.bird.jump()
             if event.type == self.BIRD_FLAP:
                 self.bird.flap()
+            if event.type == self.START_PIPES:
+                self.pipe_manager.start()
+                pygame.event.clear(self.START_PIPES)
         self.display.blit(self.background, (0, 0))
         self.pipe_manager.render()
         self.bird.render()
