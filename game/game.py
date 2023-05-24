@@ -57,11 +57,6 @@ class Game:
         self.pipe_manager.reset()
         self.bird.jump()
         
-    def render_score(self):
-        score_surface = self.score_handler.font.render(str(self.score_handler.score), True, (255, 255, 255))
-        score_rect = score_surface.get_rect(center=(self.display.get_width()//2, 100))
-        self.display.blit(score_surface, score_rect)
-        
     def render(self) -> None:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -79,4 +74,4 @@ class Game:
         self.bird_pipe_interaction_manager.handle_interactions()
         self.bird_collision_manager.handle_collision()
         self.ground.render()
-        self.render_score()
+        self.score_handler.render_score(y=100)

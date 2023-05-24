@@ -27,18 +27,11 @@ class HomeScreen:
         score_separator_y = 80
         high_score_separator_y = 725
         
-        score_surface = self.score_handler.font.render(f"SCORE: {self.score_handler.score}", True, (255, 255, 255))
-        score_rect = score_surface.get_rect(center=(self.display.get_width()//2, 45))
-        
+        self.score_handler.render_score("SCORE: $", y=45)
         score_separator = pygame.draw.line(self.display, (0,0,0), (0, score_separator_y), (separator_length, score_separator_y), width=separator_thickness)
         
-        high_score_surface = self.score_handler.font.render(f"HIGH SCORE: {self.score_handler.high_score}", True, (255, 255, 255))
-        high_score_rect = high_score_surface.get_rect(center=(self.display.get_width()//2, 770))
-        
+        self.score_handler.render_high_score("HIGH SCORE: $", y=770)
         high_score_separator = pygame.draw.line(self.display, (0,0,0), (0, high_score_separator_y), (separator_length, high_score_separator_y), width=separator_thickness)
-        
-        self.display.blit(score_surface, score_rect)
-        self.display.blit(high_score_surface, high_score_rect)
         
     def render(self) -> None:
         for event in pygame.event.get():

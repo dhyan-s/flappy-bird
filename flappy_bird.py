@@ -18,7 +18,7 @@ pygame.display.set_caption("Flappy Bird By Dhyanesh")
 
 display_handler = DisplayHandler()
 
-score = Score(font_path="assets/fonts/score_font.TTF")
+score = Score(display=display, font_path="assets/fonts/score_font.TTF")
 
 game = Game(display, display_handler, score)
 game.load()
