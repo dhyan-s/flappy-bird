@@ -1,9 +1,7 @@
 import pygame
 import os
 
-from .bird_coordinates import BirdCoordinates
-
-class Bird(BirdCoordinates):
+class Bird:
     def __init__(self, display: pygame.Surface) -> None:
         self.display = display
         self.moving: bool = False
@@ -27,23 +25,6 @@ class Bird(BirdCoordinates):
         
         self.load_frames()
         self.update_bird()
-        
-        super().__init__(self.bird_rect)
-        
-    def __getattr__(self, attr):
-        try:
-            return object.__getattribute__(self, attr)
-        except AttributeError:
-            return super().__getattr__(attr)
-        
-    def __setattr__(self, attr, value):
-        if attr == 'bird_rect':
-            object.__setattr__(self, attr, value)
-            super().__setattr__(attr, value)
-        if hasattr(super(), attr):
-            super().__setattr__(attr, value)
-        else:
-            object.__setattr__(self, attr, value)
         
     def start(self) -> None:
         self.moving = True

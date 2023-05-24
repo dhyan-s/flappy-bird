@@ -72,12 +72,12 @@ class BirdPipeInteractionManager(BirdCollisionManager):
     def check_pass_through(self) -> tuple[bool, Pipe | None]:
         for pipe in self.pipe_manager:
             valid_x = (
-                self.bird.centerx >= pipe.top_pipe.centerx
-                and self.bird.centerx <= pipe.top_pipe.midright[0]
+                self.bird.bird_rect.centerx >= pipe.top_pipe.centerx
+                and self.bird.bird_rect.centerx <= pipe.top_pipe.midright[0]
             )
             valid_y = (
-                self.bird.top > pipe.top_pipe.midbottom[1]
-                and self.bird.bottom < pipe.bottom_pipe.midtop[1]
+                self.bird.bird_rect.top > pipe.top_pipe.midbottom[1]
+                and self.bird.bird_rect.bottom < pipe.bottom_pipe.midtop[1]
             )
             if valid_x and valid_y:
                 return (True, pipe)
