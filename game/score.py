@@ -29,6 +29,10 @@ class Score:
         if self.score > self.high_score:
             self.high_score = self.score
             
+    def in_between(self, pos1: int, pos2: int) -> int:
+        pos1, pos2 = sorted((pos1, pos2), reverse=True)
+        return pos1 + ((pos2-pos1)//2)
+            
     def _render_text(self,
                      value: int,
                      text: str = None,
