@@ -69,4 +69,3 @@ class Score:
                           y: int = None, 
                           color: str = "white") -> None:
         self._render_text(self.high_score, text, x, y, color)
-            
