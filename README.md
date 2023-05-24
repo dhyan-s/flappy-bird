@@ -1,7 +1,5 @@
 # Flappy Bird Redesign: A Cleaner and More Organized Version of the Classic Game
 
-<img src="assets/readme_icon.png" alt="hi">
-
 #### **Welcome to Flappy Bird Redesign! This is my fresh take on the classic Flappy Bird game that I built about two years ago. This project focuses on enhancing the code structure and organization to make it cleaner and easier to work with.**
 
 **Key Features:**
