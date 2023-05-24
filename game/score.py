@@ -9,21 +9,24 @@ class Score:
                  high_score: int = 0,
                  font: pygame.font.Font = None) -> None:
         self.display = display
-        self.score = score
+        self._score = score
         self.high_score = high_score
         self.font = font if font is not None else pygame.font.SysFont("Arial Black", 50)
         
         self.special_character: str = "$"
         
-    def reset_score(self): 
-        self.score = 0
-        
-    def reset_high_score(self): 
-        self.high_score = 0
-        
-    def increment_score(self): 
-        self.score += 1
+    @property
+    def score(self): 
+        return self._score
+    
+    @score.setter
+    def score(self, value: int): 
+        self._score = value
         self.update_high_score()
+        
+    def reset_score(self): self.score = 0
+    def reset_high_score(self): self.high_score = 0
+    def increment_score(self): self.score += 1
         
     def update_high_score(self):
         if self.score > self.high_score:
