@@ -6,6 +6,10 @@ from .display_handler import DisplayHandler
 from .score import Score
 
 class HomeScreen:
+    """
+    Represents the home screen state of the Flappy Bird game.
+    """
+    
     def __init__(self, display: pygame.Surface, display_handler: DisplayHandler, score_handler: Score) -> None:
         self.display = display
         self.display_handler = display_handler
@@ -13,6 +17,9 @@ class HomeScreen:
         self.score_handler = score_handler
         
     def load(self) -> None:
+        """
+        Loads the required images and objects to render the home screen.
+        """
         cur_dir = os.path.dirname(__file__)
         self.background = pygame.image.load(f"{cur_dir}/background.png").convert()
         self.background = pygame.transform.scale(self.background, (self.display.get_width(), self.display.get_height()))
@@ -21,6 +28,9 @@ class HomeScreen:
         self.ground = Ground(self.display)
         
     def render_scoreboard(self) -> None:
+        """
+        Renders the score and high score on the home screen.
+        """
         separator_length = self.display.get_width()
         separator_thickness = 3
         score_separator_y = 80
@@ -33,6 +43,9 @@ class HomeScreen:
         self.score_handler.render_high_score("HIGH SCORE: $", y=self.score_handler.in_between(high_score_separator.bottom, self.ground.rect.top+5))
         
     def render(self) -> None:
+        """
+        Renders the home screen and detects keypress events to initiate the start of the game.
+        """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()

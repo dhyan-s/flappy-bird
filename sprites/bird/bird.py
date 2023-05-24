@@ -2,6 +2,12 @@ import pygame
 import os
 
 class Bird:
+    """
+    The Bird class encapsulates the behavior and attributes of the bird character
+    in the game. It handles the bird's movement, animation, position, and collision
+    detection.
+    """
+    
     def __init__(self, display: pygame.Surface) -> None:
         self.display = display
         self.moving: bool = False
@@ -27,23 +33,29 @@ class Bird:
         self.update_bird()
         
     def start(self) -> None:
+        """Starts the bird's movement."""
         self.moving = True
         
     def stop(self) -> None:
+        """Stops the bird's movement."""
         self.moving = False
         
     def reset(self) -> None:
+        """Resets the bird's position and velocity."""
         self.x_pos = 200
         self.y_pos = 300
         self.velocity = 0
         
     def add_jump_sound(self, sound: pygame.mixer.Sound) -> None:
+        """Adds a sound effect to play when the bird jumps."""
         self._jump_sound = sound
         
     def remove_jump_sound(self) -> None:
+        """Removes the jump sound effect."""
         self._jump_sound = None
         
     def load_frames(self) -> None:
+        """Loads the bird animation frames from image files."""
         cur_dir = os.path.dirname(__file__)
         
         img_downflap: pygame.Surface = pygame.image.load(f"{cur_dir}/bird_downflap.png")
@@ -61,14 +73,17 @@ class Bird:
     
     @property 
     def mask(self) -> pygame.mask.Mask:
+        """Returns a mask of the bird in real time"""
         return pygame.mask.from_surface(self.bird)
     
     def update_bird(self) -> None:
+        """Updates the bird's image, rotation, and position."""
         self.bird = self.bird_frames[self.bird_index]
         self.bird = pygame.transform.rotate(self.bird, min(-self.velocity * self.rotation, self.max_rotation))
         self.rect = self.bird.get_rect(center = (self.x_pos, self.y_pos))
         
     def flap(self) -> None:
+        """Performs a flap animation."""
         if not self.moving: return
         if self.bird_index < 2:
             self.bird_index += 1
@@ -76,15 +91,18 @@ class Bird:
             self.bird_index = 0
         
     def jump(self) -> None:
+        """Makes the bird jump by changing its velocity."""
         self.velocity = -self.jump_velocity
         if self._jump_sound is not None:
             self._jump_sound.play()
     
     def apply_gravity(self) -> None:
+        """Applies gravity to the bird's vertical velocity."""
         self.velocity += self.gravity
         self.y_pos += self.velocity
         
     def render(self) -> None:
+        """Renders the bird on the display surface"""
         if self.moving:
             self.apply_gravity()
             self.update_bird()

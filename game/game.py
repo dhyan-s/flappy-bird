@@ -10,6 +10,10 @@ from .display_handler import DisplayHandler
 from .score import Score
 
 class Game:
+    """
+    A class that brings together all the sprites and objects to create a fun and engaging Flappy Bird game.
+    """
+    
     def __init__(self, display: pygame.Surface, display_handler: DisplayHandler, score_handler: Score) -> None:
         self.display = display
         self.display_handler = display_handler
@@ -17,10 +21,14 @@ class Game:
         self.score_handler = score_handler
         
     def game_over(self) -> None:
+        """The method that is called when the game is over"""
         self.pipe_manager.stop()
         self.display_handler.set_current_state('home_screen')
         
     def load(self) -> None:
+        """
+        Loads the game dependencies and initializes the game objects.
+        """
         self.crash_sound = pygame.mixer.Sound("assets/sounds/crash.mp3")
         self.point_sound = pygame.mixer.Sound("assets/sounds/point.ogg")
         self.jump_sound = pygame.mixer.Sound("assets/sounds/jump.ogg")
@@ -52,6 +60,7 @@ class Game:
         self.START_PIPES = pygame.USEREVENT + 1
         
     def on_set_active(self) -> None:
+        """The function that is called when this screen is set active by the DisplayHandler object."""
         self.score_handler.reset_score()
         self.bird.reset()
         self.pipe_manager.reset()
@@ -59,6 +68,7 @@ class Game:
         pygame.time.set_timer(self.START_PIPES, 400)
         
     def render(self) -> None:
+        """Renders the game objects and handles game events."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
