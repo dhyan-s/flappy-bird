@@ -16,6 +16,8 @@ class HomeScreen:
         self.display_handler.add_state('home_screen', self)
         self.score_handler = score_handler
         
+        self.load()
+        
     def load(self) -> None:
         """
         Loads the required images and objects to render the home screen.

@@ -21,10 +21,7 @@ font = pygame.font.Font("assets/fonts/score_font.TTF", 50)
 score = Score(display=display, font=font)
 
 game = Game(display, display_handler, score)
-game.load()
-
 home_screen = HomeScreen(display, display_handler, score)
-home_screen.load()
 
 display_handler.set_current_state('home_screen')
 

@@ -20,6 +20,8 @@ class Game:
         self.display_handler.add_state('game', self)
         self.score_handler = score_handler
         
+        self.load()
+        
     def game_over(self) -> None:
         """The method that is called when the game is over"""
         self.pipe_manager.stop()
