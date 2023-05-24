@@ -1,16 +1,18 @@
 from dataclasses import dataclass
 import pygame
 
-@dataclass
+
 class Score:
-    display: pygame.Surface
-    score: int = 0
-    high_score: int = 0
-    font_path: str = None
-    font_size: int = 50
-    
-    def __post_init__(self):
-        self.font = pygame.font.Font(self.font_path, self.font_size) if self.font_path is not None else pygame.font.SysFont("Consolas", self.font_size)
+    def __init__(self, 
+                 display: pygame.Surface,
+                 score: int = 0,
+                 high_score: int = 0,
+                 font: pygame.font.Font = None) -> None:
+        self.display = display
+        self.score = score
+        self.high_score = high_score
+        self.font = font if font is not None else pygame.font.SysFont("Arial Black", 50)
+        
         self.special_character: str = "$"
         
     def reset_score(self): 
@@ -61,5 +63,4 @@ class Score:
                           y: int = None, 
                           color: str = "white") -> None:
         self._render_text(self.high_score, text, x, y, color)
-        
             

@@ -1,5 +1,4 @@
 import pygame
-from pygame.locals import  *
 
 from game import Game
 from game import HomeScreen
@@ -18,7 +17,8 @@ pygame.display.set_caption("Flappy Bird By Dhyanesh")
 
 display_handler = DisplayHandler()
 
-score = Score(display=display, font_path="assets/fonts/score_font.TTF")
+font = pygame.font.Font("assets/fonts/score_font.TTF", 50)
+score = Score(display=display, font=font)
 
 game = Game(display, display_handler, score)
 game.load()
