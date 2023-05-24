@@ -12,6 +12,7 @@ class PipeManager:
         
         self.pipe_list: list[Pipe] = []
         self.pipe_heights = range(350, 700, 50)
+        self.pipe_distance = 650
         
     def start(self):
         self.moving = True
@@ -35,6 +36,12 @@ class PipeManager:
             pipe.start()
         self.pipe_list.append(pipe)
         
+    def check_add_pipe(self) -> None:
+        if len(self.pipe_list) == 0: 
+            self.add_pipe()
+        if self.start_x - self.pipe_list[-1].bottom_pipe.centerx >= self.pipe_distance: 
+            self.add_pipe()
+        
     def remove_pipe(self, pipe: Pipe):
         self.pipe_list.remove(pipe)
         
@@ -44,6 +51,7 @@ class PipeManager:
                 self.remove_pipe(pipe)
     
     def render(self) -> None:
+        self.check_add_pipe()
         for pipe in self.pipe_list:
             pipe.render()
         self.cleanup()

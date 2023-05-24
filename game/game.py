@@ -66,8 +66,6 @@ class Game:
                 self.bird.jump()
             if event.type == self.BIRD_FLAP:
                 self.bird.flap()
-            if event.type == self.ADDPIPE:
-                self.pipe_manager.add_pipe()
         self.display.blit(self.background, (0, 0))
         self.pipe_manager.render()
         self.bird.render()
