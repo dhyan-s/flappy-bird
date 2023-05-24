@@ -58,7 +58,7 @@ class PipeManager:
             pipe.start()
         self.pipe_list.append(pipe)
         
-    def check_add_pipe(self) -> None:
+    def _check_add_pipe(self) -> None:
         """
         - Checks if a new pipe should be added based on the distance between
         the last pipe in the list and the starting position.
@@ -87,7 +87,7 @@ class PipeManager:
         - This method checks if a new pipe needs to be added, renders each pipe in the list,
         and performs a cleanup to remove pipes that are out of the screen.
         """
-        self.check_add_pipe()
+        self._check_add_pipe()
         for pipe in self.pipe_list:
             pipe.render()
         self.cleanup()

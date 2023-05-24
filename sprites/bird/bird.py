@@ -30,7 +30,7 @@ class Bird:
         self._jump_sound: pygame.mixer.Sound = None
         
         self.load_frames()
-        self.update_bird()
+        self._update_bird()
         
     def start(self) -> None:
         """Starts the bird's movement."""
@@ -76,7 +76,7 @@ class Bird:
         """Returns a mask of the bird in real time"""
         return pygame.mask.from_surface(self.bird)
     
-    def update_bird(self) -> None:
+    def _update_bird(self) -> None:
         """Updates the bird's image, rotation, and position."""
         self.bird = self.bird_frames[self.bird_index]
         self.bird = pygame.transform.rotate(self.bird, min(-self.velocity * self.rotation, self.max_rotation))
@@ -92,6 +92,7 @@ class Bird:
         
     def jump(self) -> None:
         """Makes the bird jump by changing its velocity."""
+        if not self.moving: return
         self.velocity = -self.jump_velocity
         if self._jump_sound is not None:
             self._jump_sound.play()
@@ -105,5 +106,5 @@ class Bird:
         """Renders the bird on the display surface"""
         if self.moving:
             self.apply_gravity()
-            self.update_bird()
+            self._update_bird()
         self.display.blit(self.bird, self.rect)   
