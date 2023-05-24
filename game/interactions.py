@@ -33,7 +33,6 @@ class BirdCollisionManager:
         
     def handle_collision(self) -> None:
         if self.check_collision() and not self.collided:
-            print('collision')
             self._on_collision()
             if self._collision_sound is not None:
                 self._collision_sound.play()
@@ -86,7 +85,6 @@ class BirdPipeInteractionManager(BirdCollisionManager):
     def handle_pass_through(self) -> None:
         passing_through, _ = self.check_pass_through()
         if passing_through and not self.passing:
-            print('pass through')
             self._on_pass_through()
             if self._pass_through_sound is not None: 
                 self._pass_through_sound.play()
@@ -104,7 +102,6 @@ class BirdPipeInteractionManager(BirdCollisionManager):
     def handle_collision(self) -> None:
         colliding, _ = self.check_collision()
         if colliding and not self.collided:
-            print('collision')
             self._on_collision()
             if self._collision_sound is not None:
                 self._collision_sound.play()
