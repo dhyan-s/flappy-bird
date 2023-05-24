@@ -1,5 +1,6 @@
 import pygame
 import random
+from typing import Iterable
 
 from .pipe import Pipe
 
@@ -14,20 +15,20 @@ class PipeManager:
         self.pipe_heights = range(350, 700, 50)
         self.pipe_distance = 650
         
-    def start(self):
+    def start(self) -> None:
         self.moving = True
         for pipe in self.pipe_list:
             pipe.start()
         
-    def stop(self):
+    def stop(self) -> None:
         self.moving = False
         for pipe in self.pipe_list:
             pipe.stop()
             
-    def reset(self):
+    def reset(self) -> None:
         self.pipe_list.clear()
         
-    def __iter__(self):
+    def __iter__(self) -> Iterable[Pipe]:
         return iter(self.pipe_list)
         
     def add_pipe(self) -> None:
@@ -37,12 +38,12 @@ class PipeManager:
         self.pipe_list.append(pipe)
         
     def check_add_pipe(self) -> None:
-        if len(self.pipe_list) == 0: 
+        if len(self.pipe_list) == 0:
             self.add_pipe()
         if self.start_x - self.pipe_list[-1].bottom_pipe.centerx >= self.pipe_distance: 
             self.add_pipe()
         
-    def remove_pipe(self, pipe: Pipe):
+    def remove_pipe(self, pipe: Pipe) -> None:
         self.pipe_list.remove(pipe)
         
     def cleanup(self) -> None:

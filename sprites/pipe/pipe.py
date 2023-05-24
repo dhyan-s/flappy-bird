@@ -2,12 +2,12 @@ import pygame
 import os
 
 class Pipe:
-    def __init__(self, display: pygame.Surface, x: int | float, y: int | float):
-        self.moving: bool = False
+    def __init__(self, display: pygame.Surface, x: int | float, y: int | float) -> None:
         self.display = display
+        self.moving: bool = False
         
-        self.x_pos = x
-        self.y_pos = y
+        self.x_pos: int = x
+        self.y_pos: int = y
         
         self.pipe: pygame.Surface
         self.top_pipe: pygame.Rect

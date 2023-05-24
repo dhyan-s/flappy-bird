@@ -1,4 +1,5 @@
 import pygame
+from typing import Callable
 
 from sprites.bird import Bird
 from sprites.pipe import Pipe, PipeManager
@@ -15,7 +16,7 @@ class BirdCollisionManager:
         self._on_collision = lambda: None
         self._collision_sound: pygame.mixer.Sound = None
         
-    def add_collision_callback(self, func) -> None:
+    def add_collision_callback(self, func: Callable) -> None:
         self._on_collision = func
         
     def remove_collision_callback(self) -> None:
@@ -42,7 +43,7 @@ class BirdCollisionManager:
             
 
 class BirdPipeInteractionManager(BirdCollisionManager):
-    def __init__(self, bird: Bird, pipe_manager: PipeManager):
+    def __init__(self, bird: Bird, pipe_manager: PipeManager) -> None:
         self.bird = bird
         self.pipe_manager = pipe_manager
         
@@ -56,7 +57,7 @@ class BirdPipeInteractionManager(BirdCollisionManager):
         self._pass_through_sound: pygame.mixer.Sound = None
         self._collision_sound: pygame.mixer.Sound = None
     
-    def add_pass_through_callback(self, func) -> None:
+    def add_pass_through_callback(self, func: Callable) -> None:
         self._on_pass_through = func
         
     def remove_pass_through_callback(self) -> None:
@@ -108,6 +109,6 @@ class BirdPipeInteractionManager(BirdCollisionManager):
             self.collided = True
         self.collided = colliding
     
-    def handle_interactions(self):      
+    def handle_interactions(self) -> None:
         self.handle_collision()
         self.handle_pass_through()

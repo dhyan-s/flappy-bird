@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 import pygame
 
 
@@ -24,11 +23,11 @@ class Score:
         self._score = value
         self.update_high_score()
         
-    def reset_score(self): self.score = 0
-    def reset_high_score(self): self.high_score = 0
-    def increment_score(self): self.score += 1
+    def reset_score(self) -> None: self.score = 0
+    def reset_high_score(self) -> None: self.high_score = 0
+    def increment_score(self) -> None: self.score += 1
         
-    def update_high_score(self):
+    def update_high_score(self) -> None:
         if self.score > self.high_score:
             self.high_score = self.score
             

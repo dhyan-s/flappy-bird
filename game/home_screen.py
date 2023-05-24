@@ -1,6 +1,5 @@
 import pygame
-import sys
-import os
+import os, sys
 
 from sprites.ground import Ground
 from .display_handler import DisplayHandler
@@ -21,7 +20,7 @@ class HomeScreen:
         self.message = pygame.image.load(f"{cur_dir}/message.png")
         self.ground = Ground(self.display)
         
-    def render_scoreboard(self):
+    def render_scoreboard(self) -> None:
         separator_length = self.display.get_width()
         separator_thickness = 3
         score_separator_y = 80

@@ -1,9 +1,10 @@
-import os, sys
 import pygame
+import os, sys
 
 from sprites.bird import Bird
 from sprites.pipe import PipeManager
 from sprites.ground import Ground
+
 from .interactions import BirdPipeInteractionManager, BirdCollisionManager
 from .display_handler import DisplayHandler
 from .score import Score
@@ -15,7 +16,7 @@ class Game:
         self.display_handler.add_state('game', self)
         self.score_handler = score_handler
         
-    def game_over(self):
+    def game_over(self) -> None:
         self.pipe_manager.stop()
         self.display_handler.set_current_state('home_screen')
         
@@ -50,7 +51,7 @@ class Game:
 
         self.START_PIPES = pygame.USEREVENT + 1
         
-    def on_set_active(self):
+    def on_set_active(self) -> None:
         self.score_handler.reset_score()
         self.bird.reset()
         self.pipe_manager.reset()
