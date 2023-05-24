@@ -15,6 +15,9 @@ display = pygame.display.set_mode((SCREENWIDTH , SCREENHEIGHT))
 clock = pygame.time.Clock()
 pygame.display.set_caption("Flappy Bird By Dhyanesh")
 
+icon = pygame.image.load("assets/icon.png")
+pygame.display.set_icon(icon)
+
 display_handler = DisplayHandler()
 
 font = pygame.font.Font("assets/fonts/score_font.TTF", 50)
