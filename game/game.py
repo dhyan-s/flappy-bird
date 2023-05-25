@@ -1,5 +1,6 @@
 import pygame
 import os, sys
+import pickle
 
 from sprites.bird import Bird
 from sprites.pipe import PipeManager
@@ -20,14 +21,58 @@ class Game:
         self.display_handler.add_state('game', self)
         self.score_handler = score_handler
         
-        self.load()
+        self.score_handler.on_new_high_score = self.new_high_score
+        self.game_data = {
+            'high_score': 0
+        }
+        
+        self.load_objects()
+        self.load_game_data()
         
     def game_over(self) -> None:
         """The method that is called when the game is over"""
         self.pipe_manager.stop()
         self.display_handler.set_current_state('home_screen')
         
-    def load(self) -> None:
+    def new_high_score(self, high_score: int) -> None:
+        """
+        The function that gets called when a new high score is achieved. 
+        
+        Updates the high score in the game data and saves it to a file.
+        """
+        self.game_data['high_score'] = high_score
+        self.save_game_data()
+        
+    def load_game_data(self) -> None:
+        """
+        - Loads the game data from a file and applies it to the game.
+        - If the game data file doesn't exist, it creates a new file with default game data.
+        - If the file exists but is empty or corrupted, it resets the game data to default values.
+        """
+        cur_dir = os.path.dirname(__file__)
+        file_path = f"{cur_dir}/game_data.dat"
+        if not os.path.exists(file_path): # File not found
+            self.save_game_data()
+        with open(file_path, "rb") as f:
+            try:
+                self.game_data = pickle.load(f)
+                self.apply_game_data()
+            except EOFError: # File exists but is likely empty
+                self.save_game_data()
+            except pickle.UnpicklingError: # Corrupted game data
+                self.save_game_data()
+        
+    def save_game_data(self) -> None:
+        """Saves the game data to a file."""
+        cur_dir = os.path.dirname(__file__)
+        with open(f"{cur_dir}/game_data.dat", "wb") as f:
+            pickle.dump(self.game_data, f)
+            
+    def apply_game_data(self) -> None:
+        """Applies the loaded game data to the respective objects in the game."""
+        self.score_handler.high_score = self.game_data['high_score']
+        
+    def load_objects(self) -> None:
         """
         Loads the game dependencies and initializes the game objects.
         """

@@ -1,5 +1,5 @@
 import pygame
-
+from typing import Callable
 
 class Score:
     """
@@ -15,6 +15,8 @@ class Score:
         self._score = score
         self.high_score = high_score
         self.font = font if font is not None else pygame.font.SysFont("Arial Black", 50)
+        
+        self.on_new_high_score: Callable = None
         
         self.special_character: str = "$"
         
@@ -36,6 +38,8 @@ class Score:
         """Updates the high score if the current score is higher."""
         if self.score > self.high_score:
             self.high_score = self.score
+            if self.on_new_high_score is not None:
+                self.on_new_high_score(self.high_score)
             
     def in_between(self, pos1: int, pos2: int) -> int:
         """Returns the value in between two positions."""
