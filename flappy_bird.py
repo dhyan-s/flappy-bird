@@ -1,10 +1,12 @@
 import pygame
+import ctypes
 
 from game import Game
 from game import HomeScreen
 from game import DisplayHandler
 from game import Score
 
+ctypes.windll.shcore.SetProcessDpiAwareness(1)
 pygame.init()
 
 FPS = 120
