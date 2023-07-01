@@ -48,13 +48,12 @@ class HomeScreen:
         """
         Renders the home screen and detects keypress events to initiate the start of the game.
         """
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE) or event.type == pygame.MOUSEBUTTONDOWN:
-                self.display_handler.set_current_state('game')
         self.display.blit(self.background, (0, 0))
         self.display.blit(self.message, (self.display.get_width() // 2 - self.message.get_width() // 2, self.display.get_height() // 2 - self.message.get_height() // 2))
         self.ground.render()
         self.render_scoreboard()
+    
+    def handle_event(self, event: pygame.event.Event) -> None:
+        """Handles keypress events to change the game state."""
+        if (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE) or event.type == pygame.MOUSEBUTTONDOWN:
+            self.display_handler.set_current_state('game')

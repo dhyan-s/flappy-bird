@@ -30,3 +30,8 @@ class DisplayHandler:
         """Renders the active screen"""
         if self._current_state is not None and self._current_state in self._states:
             self._states[self._current_state].render()
+            
+    def handle_event(self, event: pygame.event.Event) -> None:
+        """Calls the handle_event() method of the active state."""
+        if self._current_state is not None and self._current_state in self._states:
+            self._states[self._current_state].handle_event(event)

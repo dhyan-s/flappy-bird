@@ -1,10 +1,8 @@
 import pygame
 import ctypes
+import sys
 
-from game import Game
-from game import HomeScreen
-from game import DisplayHandler
-from game import Score
+from game import Game, HomeScreen, DisplayHandler, Score
 
 ctypes.windll.shcore.SetProcessDpiAwareness(1)
 pygame.init()
@@ -32,6 +30,12 @@ display_handler.set_current_state('home_screen')
 
 while True:
     display.fill((0, 0, 0))
+    
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        display_handler.handle_event(event)
     
     display_handler.render()
     

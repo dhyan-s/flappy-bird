@@ -116,17 +116,6 @@ class Game:
         
     def render(self) -> None:
         """Renders the game objects and handles game events."""
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if (event.type  == pygame.KEYDOWN and event.key == pygame.K_SPACE) or event.type == pygame.MOUSEBUTTONDOWN:
-                self.bird.jump()
-            if event.type == self.BIRD_FLAP:
-                self.bird.flap()
-            if event.type == self.START_PIPES:
-                self.pipe_manager.start()
-                pygame.event.clear(self.START_PIPES)
         self.display.blit(self.background, (0, 0))
         self.pipe_manager.render()
         self.bird.render()
@@ -134,3 +123,13 @@ class Game:
         self.bird_collision_manager.handle_collision()
         self.ground.render()
         self.score_handler.render_score(y=100)
+        
+    def handle_event(self, event: pygame.event.Event) -> None:
+        """Handles game events."""
+        if (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE) or event.type == pygame.MOUSEBUTTONDOWN:
+            self.bird.jump()
+        if event.type == self.BIRD_FLAP:
+            self.bird.flap()
+        if event.type == self.START_PIPES:
+            self.pipe_manager.start()
+            pygame.event.clear(self.START_PIPES)
