@@ -1,6 +1,6 @@
 # Flappy Bird Redesign: A Cleaner and More Organized Version of the Classic Game
 
-#### **Welcome to Flappy Bird Redesign! This is my fresh take on the classic Flappy Bird game that I built about two years ago. This project focuses on enhancing the code structure and organization to make it cleaner and easier to work with.**
+#### **Welcome to Flappy Bird Redesign! This is my fresh take on the classic Flappy Bird game that I built a few years ago. This project focuses on enhancing the code structure and organization to make it cleaner and easier to work with.**
 
 **Key Features:**
 - **Code Refactoring**: The codebase has undergone significant improvements, resulting in a more organized and readable structure. It's all about making the code neater and easier to understand.
@@ -10,7 +10,7 @@
 
 Flappy Bird Redesign is a revamped version of the game I created about two years ago. It's not a major overhaul of the gameplay, but rather a dedicated effort to enhance the code structure and organization. Explore the code, have fun playing the game, and feel free to contribute if you'd like to help make it better. I'm still learning and would love to hear your suggestions.
 
-### Instructions
+### Setup
 1. **Installation**: Clone the repository to your local machine using the command `git clone https://github.com/dhyan-s/flappy-bird-redesign`, assuming you have Git installed. If not, simply download the code from here and extract the zip file.
 2. **Dependencies**: Navigate to the project directory and install the required dependencies using: `pip install -r requirements.txt`
 3. **Run the Game**: Execute `python flappy_bird.py` in the project root to run the game.
