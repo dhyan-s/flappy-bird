@@ -1,8 +1,9 @@
 # Flappy Bird
 #### **This is my fresh take on the classic Flappy Bird game that I built a few years ago. This project focuses on enhancing the code structure and organization to make it cleaner and easier to work with.**
 
-![Screenshot 2024-02-07 234841](https://github.com/dhyan-s/flappy-bird/assets/106443221/905bff2e-b4fe-4c7d-bfd4-f6de1e7c464b)
-
+<p align="center">
+  <img src="https://github.com/dhyan-s/flappy-bird/assets/106443221/905bff2e-b4fe-4c7d-bfd4-f6de1e7c464b" alt="flappy-bird-preview">
+</p>
 
 ### Setup
 Please install [Python](https://www.python.org/downloads/) if you haven't already and follow the below steps:
